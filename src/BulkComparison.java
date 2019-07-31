@@ -37,8 +37,8 @@ public class BulkComparison {
      */
     private static void compare(String[] paths, boolean writeToFile){
         try {
-            PrintWriter writer = new PrintWriter("data_to_plot_40graphs.csv");
-            //PrintWriter writer = new PrintWriter("data_to_plot_dimacs.csv");
+            //PrintWriter writer = new PrintWriter("data_to_plot_40graphs.csv");
+            PrintWriter writer = new PrintWriter("data_to_plot_dimacs.csv");
 
             // Data format:
             // Graphname, nodes, edges, density, wp_ub, nanosec_wp, rlf_ub, nanosec_rlf, dst_ub, nanosec_dst, igr3_ub,
@@ -122,7 +122,7 @@ public class BulkComparison {
                 } else {
                     long start;
                     long end;
-
+					/*
                     start = System.nanoTime();
                     // Instantiate Welsh Powell algorithm class and start its thread
                     WelshPowell wp = new WelshPowell(degDescent, maxDegree + 1, matrix);
@@ -237,7 +237,7 @@ public class BulkComparison {
                     }
                     end = System.nanoTime();
                     timePrinter(start, end, writeToFile, writer);
-
+					*/
                     start = System.nanoTime();
                     LowerBoundHeap lowerBoundHeap = new LowerBoundHeap(n, e, matrix);
                     Thread lbhThread = new Thread(lowerBoundHeap);
@@ -292,24 +292,26 @@ public class BulkComparison {
      */
     private static String[] getList(String[] a){
 
-        File[] files = new File("Graphs/").listFiles();
-        //File[] files = new File("Graphs/graph_color").listFiles();
+        //File[] files = new File("C:/compare/Graphs/").listFiles();
+        File[] files = new File("C:/compare/Graphs/graph_color").listFiles();
 
         //files = null; // debug
-
+		String[] graphArr = null;
         if (files != null) {
             ArrayList<String> graphList = new ArrayList<>();
             for (File file: files) {
                 if (Util.getFileExtension(file).equals("txt") || Util.getFileExtension(file).equals("col"))
                     graphList.add(file.getPath());
             }
-            String[] graphArr = new String[graphList.size()];
+            //String[] graphArr = new String[graphList.size()];
+			graphArr = new String[graphList.size()];
             graphArr = graphList.toArray(graphArr);
-            return graphArr;
+            //return graphArr;
         }
 
         // Shouldn't arrive here
-        return null;
+        //return null;
+		return graphArr;
     }
 
 }

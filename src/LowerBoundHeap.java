@@ -35,11 +35,11 @@ public class LowerBoundHeap implements Runnable{
 		}
 		
 		for( int i = 0; i < nodes; i++){	//finds all neighbours and saves them
-			int columncounter = 1;			//each iteration has a new columncounter set to 1
+			int columncounter = 1;			//each iteration has a new column counter set to 1
 			
 			neighbours[i][0] = i;//every node is the neighbour of itself
-			for(int j = 0; j < nodes; j++){//for each record in the adjecency matrix 
-				if(adjacency[i][j] == 1){//if it's connected the connected vortices get saved
+			for(int j = 0; j < nodes; j++){//for each record in the adjacency matrix
+				if(adjacency[i][j] == 1){//if it's connected the connected vertices get saved
 				neighbours[i][columncounter] = j;
 				columncounter++;
 				}
@@ -71,7 +71,7 @@ public class LowerBoundHeap implements Runnable{
 		for(int i = 0; i < nodes; i++){
 			System.out.println(executionOrder[i][0] + " " + executionOrder[i][1]);
 		}
-		
+		int checkTill = (int)(0.25*nodes)+1;
 		for(int i = 0; i < neighbours.length; i++){
 			max = 0;
 			//the recursion is only called if the chosen node's density is higher than the current lowerbound 
@@ -82,6 +82,10 @@ public class LowerBoundHeap implements Runnable{
 				//System.out.println("Recursion called for node " + i);
 				//max = recursiveSearch(e, adjacency, neighbours[i], lowerBound);
 				max = recursiveSearch(e, adjacency, neighbours[executionOrder[i][0]], lowerBound);
+			}
+			if(executionOrder[nodes - (i+1) ][1] > lowerBound + 1){	//+1 for the i=j 0s
+				int temp = recursiveSearch(e, adjacency, neighbours[executionOrder[nodes - (i+1)][0]], lowerBound);
+				if(temp > max) max = temp;
 			}
 			if(max > lowerBound){
 				lowerBound = max;
