@@ -13,11 +13,11 @@ import java.util.LinkedList;
 public class BulkComparison {
 
     public static void main(String[] args){
-        compare(getList(args), false);
+        //compare(getList(args), false);
 
-        //String[] asd = new String[1];
-        //asd[0] = "Graphs/graph_color/homer.col";
-        //compare(asd, true);
+        String[] asd = new String[1];
+        asd[0] = "Graphs/graph_color/homer.col";
+        compare(asd, false);
     }
 
     /**
@@ -83,15 +83,8 @@ public class BulkComparison {
                 DegComparator comp = new DegComparator();
                 Collections.sort(degDescent, comp);
 
-                if (Config.DEBUG) {
-                    Util.printOrderAndDegree(degDescent, adjList);
-                    System.out.println("Max degree: " + maxDegree);
-                }
-
                 if (writeToFile)
                     writer.print(paths[i] + "," + n + "," + m + ",");
-
-                //penalty = 0;
 
                 //System.out.println("\n" + paths[i] + "\nDisconnected: " + readGraph.getDisconnected() + "/" + n);
                 //if (writeToFile)
@@ -105,17 +98,17 @@ public class BulkComparison {
                     writer.print(density+",");
 
                 // Commence logical checks, afterwards - algorithms
-                if (m == 0) { // Graph is completely disconnected
-                    System.out.println("CHROMATIC NUMBER = 1");
+                if (m == 0) {
+                    System.out.println("Graph is completely disconnected");
                     if (writeToFile)
                         writer.print(1);
-                } else if (density == 1.0) { // Graph is fully connected
-                    System.out.println("CHROMATIC NUMBER = " + n);
+                } else if (density == 1.0) {
+                    System.out.println("Graph is fully connected");
 
                     if (writeToFile)
                         writer.print(n);
-                } else if (Bipartite.isBipartite(matrix, n)) { // Graph is bipartite
-                    System.out.println("CHROMATIC NUMBER = 2");
+                } else if (Bipartite.isBipartite(matrix, n)) {
+                    System.out.println("Graph is bipartite");
 
                     if (writeToFile)
                         writer.print(2);
