@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class BulkComparison {
 
     public static void main(String[] args){
-        compare(getList(args), true);
+        compare(getList(args), false);
 
         //String[] asd = new String[1];
         //asd[0] = "Graphs/graph_color/homer.col";
@@ -122,122 +122,7 @@ public class BulkComparison {
                 } else {
                     long start;
                     long end;
-					/*
-                    start = System.nanoTime();
-                    // Instantiate Welsh Powell algorithm class and start its thread
-                    WelshPowell wp = new WelshPowell(degDescent, maxDegree + 1, matrix);
-                    Thread wpThread = new Thread(wp);
-                    wpThread.start();
-                    try {
-                        wpThread.join(3600000); // Stop WP after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
 
-                    if (writeToFile) {
-                        writer.print(wp.colorSet.size() + ",");
-                    }
-
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    // Instantiate RLF algorithm class and start its thread
-                    RLF rlf = new RLF(n, adjList, matrix, degDescent);
-                    Thread rlfThread = new Thread(rlf);
-                    rlfThread.start();
-                    try {
-                        rlfThread.join(3600000); // Stop RLF after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (writeToFile) {
-                        writer.print(rlf.S.size() + ",");
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    // Instantiate DSATUR algorithm class and start its thread
-                    DSatur dst = new DSatur(n, maxDegree + 1, adjList, degDescent);
-                    Thread dstThread = new Thread(dst);
-                    dstThread.start();
-                    try {
-                        dstThread.join(3600000); // Stop DSATUR after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (writeToFile) {
-                        writer.print(dst.solution.size() + ",");
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    // Instantiate Iterated Greedy algorithm class and start its thread
-                    IteratedGreedy igr3 = new IteratedGreedy(n, m, e, rlf.S.size(), adjList, rlf.S);
-                    Thread igr3Thread = new Thread(igr3);
-                    igr3Thread.start();
-                    try {
-                        igr3Thread.join(3600000); // Stop Iterated Greedy after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (writeToFile) {
-                        writer.print(igr3.k + ",");
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    // Instantiate Iterated Greedy algorithm class and start its thread
-                    IteratedGreedy igr2 = new IteratedGreedy(n, m, e, dst.solution.size(), adjList, DSatur.solution);
-                    Thread igr2Thread = new Thread(igr2);
-                    igr2Thread.start();
-                    try {
-                        igr2Thread.join(3600000); // Stop Iterated Greedy after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (writeToFile) {
-                        writer.print(igr2.k + ",");
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    // Instantiate Iterated Greedy algorithm class and start its thread
-                    IteratedGreedy igr = new IteratedGreedy(n, m, e, WelshPowell.colorSet.size(), adjList, WelshPowell.colorSet);
-                    Thread igrThread = new Thread(igr);
-                    igrThread.start();
-                    try {
-                        igrThread.join(3600000); // Stop Iterated Greedy after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (writeToFile) {
-                        writer.print(igr.k + ",");
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-
-                    start = System.nanoTime();
-                    LowerBoundTop lowerBoundTop = new LowerBoundTop(n, e, writer);
-                    Thread lbThread = new Thread(lowerBoundTop);
-                    lbThread.start();
-                    try {
-                        lbThread.join(3600000); // Stop LowerBound after at most 1 hour
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                    end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
-					*/
                     start = System.nanoTime();
                     LowerBoundHeap lowerBoundHeap = new LowerBoundHeap(n, e, matrix);
                     Thread lbhThread = new Thread(lowerBoundHeap);
