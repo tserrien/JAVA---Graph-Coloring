@@ -9,34 +9,23 @@ public class readGraph {
 	 * n -- the number of vertex
 	 * cn -- the chromatic number 
 	 */
-	
-	public final static boolean DEBUG = false;
-
 	public final static String COMMENT = "//";
-	
-	public static int[] colors = null; 
-	
-	public static int m;
-	
-	public static int n;
+	public static int edges;
+	public static int nodes;
+	private static int disconnectedNodes = 0;
 
-	//private static int discNodes = 0;
-
-	//public static int getDisconnected(){
-	//	return discNodes;
-	//}
+	public static int getDisconnected(){
+		return disconnectedNodes;
+	}
 
 	public static ColEdge[] readFile(String inputfile) {
 
 		boolean seen[] = null;
-		// ! n is the number of vertices in the graph
-		n = -1;
+		nodes = -1;
+		edges = -1;
 
-		// ! m is the number of edges in the graph
-		m = -1;
-
-		// ! e will contain the edges of the graph
-		ColEdge e[] = null;
+		// ! edgeConnections will contain the edges of the graph
+		ColEdge edgeConnections[] = null;
 
 		try {
 			FileReader fr = new FileReader(inputfile);
@@ -48,35 +37,35 @@ public class readGraph {
 			// // symbol.
 			// ! These comments are only allowed at the top of the file.
 
-			// ! -----------------------------------------
 			while ((record = br.readLine()) != null) {
 				if (record.startsWith("//"))
 					continue;
-				break; // Saw a line that did not start with a comment -- time to start reading the
-								// data in!
+				// Saw a line that did not start with a comment -- time to start reading the
+				// data in!
+				break;
 			}
 
 			if (record.startsWith("VERTICES = ")) {
-				n = Integer.parseInt(record.substring(11));
+				nodes = Integer.parseInt(record.substring(11));
 				if (Config.DEBUG)
-					System.out.println(COMMENT + " Number of vertices = " + n);
+					System.out.println(COMMENT + " Number of vertices = " + nodes);
 			} else {
 				throw new IOException();
 			}
 
-			seen = new boolean[n + 1];
+			seen = new boolean[nodes + 1];
 			
 			record = br.readLine();
 
 			if (record.startsWith("EDGES = ")) {
-				m = Integer.parseInt(record.substring(8));
+				edges = Integer.parseInt(record.substring(8));
 				if (Config.DEBUG)
-					System.out.println(COMMENT + " Expected number of edges = " + m);
+					System.out.println(COMMENT + " Expected number of edges = " + edges);
 			}
 
-			e = new ColEdge[m];
+			edgeConnections = new ColEdge[edges];
 
-			for (int d = 0; d < m; d++) {
+			for (int d = 0; d < edges; d++) {
 				if (Config.DEBUG)
 					System.out.println(COMMENT + " Reading edge " + (d + 1));
 				record = br.readLine();
@@ -85,23 +74,23 @@ public class readGraph {
 					System.out.println("Error! Malformed edge line: " + record);
 					System.exit(0);
 				}
-				e[d] = new ColEdge();
+				edgeConnections[d] = new ColEdge();
 
-				e[d].u = Integer.parseInt(data[0]);
-				e[d].v = Integer.parseInt(data[1]);
+				edgeConnections[d].u = Integer.parseInt(data[0]);
+				edgeConnections[d].v = Integer.parseInt(data[1]);
 
-				seen[e[d].u] = true;
-				seen[e[d].v] = true;
+				seen[edgeConnections[d].u] = true;
+				seen[edgeConnections[d].v] = true;
 
-				if (DEBUG)
-					System.out.println(COMMENT + " Edge: " + e[d].u + " " + e[d].v);
+				if (Config.DEBUG)
+					System.out.println(COMMENT + " Edge: " + edgeConnections[d].u + " " + edgeConnections[d].v);
 
 			}
 
 			String surplus = br.readLine();
 			if (surplus != null) {
 				if (surplus.length() >= 2)
-					if (DEBUG)
+					if (Config.DEBUG)
 						System.out.println(
 								COMMENT + " Warning: there appeared to be data in your file after the last edge: '" + surplus + "'");
 			}
@@ -111,48 +100,20 @@ public class readGraph {
 			// catch possible io errors from readLine()
 			System.out.println("Error! Problem reading file " + inputfile);
 			return null;
-//			System.exit(0);
 		}
 
-		//discNodes = 0; // return to 0, because the variable is static
+		//return to 0, because the variable is static, in case more than one files are read in.
+		// TODO make this independent
+		disconnectedNodes = 0;
 
-		for (int x = 1; x <= n; x++) {
+		for (int x = 1; x <= nodes; x++) {
 			if (seen[x] == false) {
-				if (DEBUG)
+				if(Config.DEBUG)
 					System.out.println(COMMENT + " Warning: vertex " + x
 							+ " didn't appear in any edge : it will be considered a disconnected vertex on its own.");
-				//discNodes++;
+				disconnectedNodes++;
 			}
 		}
-		return e;
+		return edgeConnections;
 	}
-	
-	public void setErrorListener() {
-
-	}
-
-		
-		// ! At this point e[0] will be the first edge, with e[0].u referring to one
-		// endpoint and e[0].v to the other
-		// ! e[1] will be the second edge...
-		// ! (and so on)
-		// ! e[m-1] will be the last edge
-		// !
-		// ! there will be n vertices in the graph, numbered 1 to n
-
-		// ! INSERT YOUR CODE HERE!	
-		
-		
-			
-	
-//		SatGreedy sat = new SatGreedy(n, m, e);
-//		upper_bound = sat.getUpper_bound();
-//		Backtrack bc = new Backtrack(n, e);
-		
-	
-	
 }
-
-
-
-

@@ -20,28 +20,13 @@ public class Util {
 	public static int min(int [] arr) {
 		int _min = arr[0];
 		for (int i = 1; i < arr.length; i++) {
-			if(arr[i] != -1)
+			if (arr[i] != -1)
 				_min = Math.min(arr[i], _min);
 			else
 				break;
 		}
 		return _min;
 	}
-	
-//	public static void shuffle(LinkedList[] linkedLists) {
-//		Random rnd = new Random();
-//		int index;
-//		LinkedList temp;
-//		for(int i = linkedLists.length - 1; i > 1; i--) {
-//			index = rnd.nextInt(i)+1;
-//			if(index != i) {
-//				temp = linkedLists[i];
-//				linkedLists[i] = linkedLists[index];
-//				linkedLists[index] = temp;
-//			}
-//		}
-//	}
-	
 	
 	public static int countConflicts(int[][] solution, ColEdge[] e) {
 		int conf = 0;
@@ -88,14 +73,7 @@ public class Util {
 		}
 		return al;
 	}
-	
-//	public static void createMatrix(int n) {
-//		int[][] ret = new int[n][n];
-//		for(int i = 0; i < n; i++) {
-//			
-//		}
-//	}
-	
+
 	public static void adjacencyMatrix(int n, ArrayList<Integer> g) {
 		for(int i = 0; i < g.size(); i++) {
 			g.get(i);

@@ -50,9 +50,9 @@ public class BulkComparison {
                 System.out.println("\n" + paths[i]);
                 ColEdge[] e = readGraph.readFile(paths[i]);
 
-                int n = readGraph.n;
-                int m = readGraph.m;
-                int[][] matrix = Util.adjacencyMatrix(readGraph.n, e);
+                int n = readGraph.nodes;
+                int m = readGraph.edges;
+                int[][] matrix = Util.adjacencyMatrix(readGraph.nodes, e);
                 LinkedList<Integer>[] adjList = Util.adjList(n, e);
 
                 int maxDegree = 0;
@@ -87,10 +87,11 @@ public class BulkComparison {
                     writer.print(paths[i] + "," + n + "," + m + ",");
 
                 //System.out.println("\n" + paths[i] + "\nDisconnected: " + readGraph.getDisconnected() + "/" + n);
-                //if (writeToFile)
-                  //  writer.print(readGraph.getDisconnected()+",");
-
-                double density = (double) m / (n * (n - 1) / 2); // Calculate density of the graph
+                if (Config.writeToFile)
+                    writer.print(readGraph.getDisconnected()+",");
+                // Calculate density of the graph
+                // TODO move this to Util (or somewhere...)
+                double density = (double) m / (n * (n - 1) / 2);
 
                 System.out.printf("Density: %.5f \n", density);
 
@@ -121,7 +122,7 @@ public class BulkComparison {
                     Thread lbhThread = new Thread(lowerBoundHeap);
                     lbhThread.start();
                     try {
-                        lbhThread.join(3600000); // Stop LowerBoundHeap after at most 1 hour
+                        lbhThread.join(Config.killtime); // Stop LowerBoundHeap after at most 1 hour
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -130,7 +131,7 @@ public class BulkComparison {
                         writer.print(lowerBoundHeap.getLowerBound() + ",");
                     }
                     end = System.nanoTime();
-                    timePrinter(start, end, writeToFile, writer);
+                    timePrinter(start, end, writer);
                 }
                 writer.print("\n");
             }
@@ -146,15 +147,14 @@ public class BulkComparison {
      * @param start Start of the execution (in nanoseconds).
      * @param end End of the execution (in nanoseconds).
      */
-    public static void timePrinter(long start, long end, boolean writeToFile, PrintWriter writer){
+    public static void timePrinter(long start, long end, PrintWriter writer){
         long time = end - start;
         System.out.println("Runtime: " + time + " nanosec");
 
-        if (writeToFile)
+        if (Config.writeToFile)
             writer.print(time + ",");
-        //writer.println("Runtime: " + time + " nanosec");
 
-        time = (long) (time / 1000000);//conversion from nanosec to milisec
+        time = (long) (time / 1000000);
         byte hour = (byte)((time/1000/60/60)%60);
         byte minute = (byte) (((time/1000/60) - (hour*60))%60);
         byte second = (byte) ((time/1000) - (minute*60));
