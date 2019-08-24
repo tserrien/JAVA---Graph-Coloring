@@ -1,14 +1,9 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class readGraph {
 
-	/*
-	 * colors -- a list that holds the colors we fill
-	 * adj -- the adjacency matrix representation
-	 * m -- the number of edges
-	 * n -- the number of vertex
-	 * cn -- the chromatic number 
-	 */
 	public final static String COMMENT = "//";
 	public static int edges;
 	public static int nodes;
@@ -40,8 +35,7 @@ public class readGraph {
 			while ((record = br.readLine()) != null) {
 				if (record.startsWith("//"))
 					continue;
-				// Saw a line that did not start with a comment -- time to start reading the
-				// data in!
+				// Saw a line that did not start with a comment -- time to start reading the data in!
 				break;
 			}
 

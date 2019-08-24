@@ -1,3 +1,21 @@
+
+####2019.08.24
+New class added for the weighted lower bound. Was a bit too quick, should have refactored the original first. Cleaned up commented out debug lines, and did a light overview on how the algorithm is implemented. Some comments need to be rewritten when this class gets javadoc for better understanding. Variables may be subject to another wave of renaming.
+
+Top 25% check option temporarily removed. For the final benchmark it'd be interesting to compare how accurate each algorithm is when it restricted to only top 5, 25, 5% and 25% of the nodes in their execution order. For now it's just more clutter.
+
+PrintMatrix added to Util. Util needs to be renamed, but refactoring would need prep. Will be done after the baseline benchmark.
+
+Main is considered to be good enough for now.
+readGraph got it's imports optimised.
+ 
+----
+#### 2019.08.17
+Found the hardcoded path that made BulkComparison throw nullpointer expection every time. **Hardcoded paths are bad things, MMMMMMKAY?** ~~do you best Mr. Mackey impression~~
+
+Pathing must be fixed, not pushing till that's changed. Not hard, but it's late in the night.
+
+----
 #### 2019.08.16
 As a temporary solution Config.java will hold the preset settings for things I'd like to be customizable or modifiable from a menu (to be built later).
 

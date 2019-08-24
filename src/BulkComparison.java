@@ -8,16 +8,17 @@ import java.util.LinkedList;
 
 /**
  * Class to easily compare accuracy and runtime of
- * different lower and upper bound algorithms on bulks of graphs.
+ * different versions of the Bron-Kerbosch lower bound algorithm
  */
 public class BulkComparison {
 
     public static void main(String[] args){
-        //compare(getList(args), false);
-
+        System.out.println(args[0]);
+        compare(getList(args));
+/*
         String[] asd = new String[1];
         asd[0] = "Graphs/graph_color/homer.col";
-        compare(asd, false);
+        compare(asd, false);*/
     }
 
     /**
@@ -33,9 +34,8 @@ public class BulkComparison {
      * best result is taken for comparison.
      *
      * @param paths String array of all the paths of the graphs to compare.
-     * @param writeToFile True - write the statistics of this comparison to a file, False - don't write.
      */
-    private static void compare(String[] paths, boolean writeToFile){
+    private static void compare(String[] paths){
         try {
             //PrintWriter writer = new PrintWriter("data_to_plot_40graphs.csv");
             PrintWriter writer = new PrintWriter("data_to_plot_dimacs.csv");
@@ -83,7 +83,7 @@ public class BulkComparison {
                 DegComparator comp = new DegComparator();
                 Collections.sort(degDescent, comp);
 
-                if (writeToFile)
+                if (Config.writeToFile)
                     writer.print(paths[i] + "," + n + "," + m + ",");
 
                 //System.out.println("\n" + paths[i] + "\nDisconnected: " + readGraph.getDisconnected() + "/" + n);
@@ -95,23 +95,23 @@ public class BulkComparison {
 
                 System.out.printf("Density: %.5f \n", density);
 
-                if (writeToFile)
+                if (Config.writeToFile)
                     writer.print(density+",");
 
                 // Commence logical checks, afterwards - algorithms
                 if (m == 0) {
                     System.out.println("Graph is completely disconnected");
-                    if (writeToFile)
+                    if (Config.writeToFile)
                         writer.print(1);
                 } else if (density == 1.0) {
                     System.out.println("Graph is fully connected");
 
-                    if (writeToFile)
+                    if (Config.writeToFile)
                         writer.print(n);
                 } else if (Bipartite.isBipartite(matrix, n)) {
                     System.out.println("Graph is bipartite");
 
-                    if (writeToFile)
+                    if (Config.writeToFile)
                         writer.print(2);
                 } else {
                     long start;
@@ -127,7 +127,7 @@ public class BulkComparison {
                         ex.printStackTrace();
                     }
 
-                    if (writeToFile) {
+                    if (Config.writeToFile) {
                         writer.print(lowerBoundHeap.getLowerBound() + ",");
                     }
                     end = System.nanoTime();
@@ -171,10 +171,11 @@ public class BulkComparison {
     private static String[] getList(String[] a){
 
         //File[] files = new File("C:/compare/Graphs/").listFiles();
-        File[] files = new File("C:/compare/Graphs/graph_color").listFiles();
-
+        //File[] files = new File("C:/compare/Graphs/graph_color").listFiles();
+        File[] files = new File("Graphs").listFiles();
         //files = null; // debug
 		String[] graphArr = null;
+
         if (files != null) {
             ArrayList<String> graphList = new ArrayList<>();
             for (File file: files) {
@@ -186,11 +187,8 @@ public class BulkComparison {
             graphArr = graphList.toArray(graphArr);
             //return graphArr;
         }
-
         // Shouldn't arrive here
         //return null;
 		return graphArr;
     }
-
 }
-

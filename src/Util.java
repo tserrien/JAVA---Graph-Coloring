@@ -1,3 +1,5 @@
+//TODO refactor
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -220,5 +222,13 @@ public class Util {
 			return fileName.substring(fileName.lastIndexOf(".")+1);
 		else return "";
 	}
-}
 
+	public static void PrintMatrix(int[][] matrix){
+		for(int i = 0; i < matrix.length; i++){
+			for(int j = 0; i < matrix[i].length; j++){
+				System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+}
