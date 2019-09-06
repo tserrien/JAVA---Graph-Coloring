@@ -69,7 +69,7 @@ public class Main {
             Thread lbhThread = new Thread(lowerBoundHeap);
             lbhThread.start();
             try {
-                lbhThread.join(450000); // Stop LowerBoundHeap after at most 60 seconds
+                lbhThread.join(Config.killtime); // Stop LowerBoundHeap after at most 60 seconds
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }

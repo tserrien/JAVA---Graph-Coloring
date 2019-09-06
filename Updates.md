@@ -1,4 +1,13 @@
 
+####2019.09.03
+Made header for the .csv.
+Found a bug in the printed file 
+
+----
+####2019.08.25
+Something is still funny with the path. Ran the first successful test since restarting the project. Not having headers in the .csv really hurts quickly checking whether the data output is what is expected or something full garbage. Will spend tomorrow afternoon on it. The zero columns worry me. one is probably the upper bound, one the lower. If that's the case I must figure out where the print is missing.   
+
+----
 ####2019.08.24
 New class added for the weighted lower bound. Was a bit too quick, should have refactored the original first. Cleaned up commented out debug lines, and did a light overview on how the algorithm is implemented. Some comments need to be rewritten when this class gets javadoc for better understanding. Variables may be subject to another wave of renaming.
 

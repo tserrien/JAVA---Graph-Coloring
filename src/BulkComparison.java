@@ -13,51 +13,41 @@ import java.util.LinkedList;
 public class BulkComparison {
 
     public static void main(String[] args){
-        System.out.println(args[0]);
         compare(getList(args));
-/*
-        String[] asd = new String[1];
-        asd[0] = "Graphs/graph_color/homer.col";
-        compare(asd, false);*/
     }
 
     /**
-     * Method that compares the results of different graph colouring algorithms.
+     * Method that compares the results of different lower-bound algorithms.
      *
      * The comparing works as follows. Graph is read, if the graph is completely disconnected, the chromatic
      * number (CN) is 1, if the graph is fully connected, CN = number of nodes, then graph is checked
      * if it's a bipartite graph, because if it is, CN = 2. If none of these cases occurred, the actual algorithms
-     * are started in this order: Upper bounds: Welsh Powell, RLF, DSATUR, Iterated Greedy with 3 different parameters;
-     * Lower bounds: Bron Kerbosch, Largest Subgraph with heapsort.
+     * are started in this order:
+     * Bron-Kerbosch,with heapsorting
      *
-     * The algorithms are allowed to run no more than 60 seconds. If they have exceeded this limit, their current
-     * best result is taken for comparison.
+     * The algorithms can be limited in runtime in the settings file. If they have exceeded this limit, their current
+     * best result is taken.
      *
      * @param paths String array of all the paths of the graphs to compare.
      */
     private static void compare(String[] paths){
         try {
-            //PrintWriter writer = new PrintWriter("data_to_plot_40graphs.csv");
-            PrintWriter writer = new PrintWriter("data_to_plot_dimacs.csv");
-
-            // Data format:
-            // Graphname, nodes, edges, density, wp_ub, nanosec_wp, rlf_ub, nanosec_rlf, dst_ub, nanosec_dst, igr3_ub,
-            // nanosec_igr3, igr2_ub, nanosec_igr2, igr_ub, nanosec_igr, lb_ben, nanosec_lb_ben, lb_and, nanosec_lb_and
+            //TODO make filename timestamped and dynamic
+            PrintWriter writer = new PrintWriter("testrun.csv");
+            if (Config.writeToFile)
+                writer.print("Path,Nodes,Edges,Density,ChromaticN,Baselb,RuntimeNano\n");
 
             for (int i = 0; i < paths.length; i++) {
-                //for(int i = 0; i < 2; i++){		//debug constraint
-
                 System.out.println("\n" + paths[i]);
                 ColEdge[] e = readGraph.readFile(paths[i]);
 
-                int n = readGraph.nodes;
-                int m = readGraph.edges;
+                int nodes = readGraph.nodes;
+                int edges = readGraph.edges;
                 int[][] matrix = Util.adjacencyMatrix(readGraph.nodes, e);
-                LinkedList<Integer>[] adjList = Util.adjList(n, e);
 
                 int maxDegree = 0;
 
-                int[] d = new int[n];
+                int[] d = new int[nodes];
 
                 for (int k = 0; k < matrix.length; k++) {
                     for (int j = 0; j < matrix[0].length; j++) {
@@ -71,7 +61,7 @@ public class BulkComparison {
                 }
 
                 ArrayList<Integer> degDescent = new ArrayList<Integer>();
-                for (int k = 0; k < n; k++) {
+                for (int k = 0; k < nodes; k++) {
                     degDescent.add(k);
                 }
                 class DegComparator implements Comparator<Integer> {
@@ -84,14 +74,14 @@ public class BulkComparison {
                 Collections.sort(degDescent, comp);
 
                 if (Config.writeToFile)
-                    writer.print(paths[i] + "," + n + "," + m + ",");
+                    writer.print(paths[i] + "," + nodes + "," + edges + ",");
 
                 //System.out.println("\n" + paths[i] + "\nDisconnected: " + readGraph.getDisconnected() + "/" + n);
-                if (Config.writeToFile)
-                    writer.print(readGraph.getDisconnected()+",");
+                //if (Config.writeToFile)
+                    //writer.print(readGraph.getDisconnected()+",");
                 // Calculate density of the graph
                 // TODO move this to Util (or somewhere...)
-                double density = (double) m / (n * (n - 1) / 2);
+                double density = (double) edges / (nodes * (nodes - 1) / 2);
 
                 System.out.printf("Density: %.5f \n", density);
 
@@ -99,7 +89,7 @@ public class BulkComparison {
                     writer.print(density+",");
 
                 // Commence logical checks, afterwards - algorithms
-                if (m == 0) {
+                if (edges == 0) {
                     System.out.println("Graph is completely disconnected");
                     if (Config.writeToFile)
                         writer.print(1);
@@ -107,8 +97,8 @@ public class BulkComparison {
                     System.out.println("Graph is fully connected");
 
                     if (Config.writeToFile)
-                        writer.print(n);
-                } else if (Bipartite.isBipartite(matrix, n)) {
+                        writer.print(nodes);
+                } else if (Bipartite.isBipartite(matrix, nodes)) {
                     System.out.println("Graph is bipartite");
 
                     if (Config.writeToFile)
@@ -118,17 +108,18 @@ public class BulkComparison {
                     long end;
 
                     start = System.nanoTime();
-                    LowerBoundHeap lowerBoundHeap = new LowerBoundHeap(n, e, matrix);
+                    LowerBoundHeap lowerBoundHeap = new LowerBoundHeap(nodes, e, matrix);
                     Thread lbhThread = new Thread(lowerBoundHeap);
                     lbhThread.start();
                     try {
-                        lbhThread.join(Config.killtime); // Stop LowerBoundHeap after at most 1 hour
+                        lbhThread.join(Config.killtime);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
 
                     if (Config.writeToFile) {
                         writer.print(lowerBoundHeap.getLowerBound() + ",");
+                        System.out.println("!!!" + lowerBoundHeap.getLowerBound() + "!!!");
                     }
                     end = System.nanoTime();
                     timePrinter(start, end, writer);
@@ -170,9 +161,11 @@ public class BulkComparison {
      */
     private static String[] getList(String[] a){
 
+        //TODO remove hardcoded path
+
         //File[] files = new File("C:/compare/Graphs/").listFiles();
         //File[] files = new File("C:/compare/Graphs/graph_color").listFiles();
-        File[] files = new File("Graphs").listFiles();
+        File[] files = new File("Graphs/Kelk").listFiles();
         //files = null; // debug
 		String[] graphArr = null;
 
