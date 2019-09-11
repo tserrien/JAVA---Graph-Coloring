@@ -35,7 +35,7 @@ public class BulkComparison {
             //TODO make filename timestamped and dynamic
             PrintWriter writer = new PrintWriter("testrun.csv");
             if (Config.writeToFile)
-                writer.print("Path,Nodes,Edges,Density,ChromaticN,Baselb,RuntimeNano\n");
+                writer.print("Path,Nodes,Edges,Density,Baselb,RuntimeNano\n");
 
             for (int i = 0; i < paths.length; i++) {
                 System.out.println("\n" + paths[i]);

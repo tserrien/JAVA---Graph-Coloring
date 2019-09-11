@@ -67,6 +67,18 @@ public class LowerBoundHeap implements Runnable{
 				System.out.println(executionOrder[i][0] + " " + executionOrder[i][1]);
 			}
 		}
+
+		//restored from older version
+		for(int i = 0; i < neighbours.length; i++){
+			max = 0;
+			if(executionOrder[i][1] > lowerBound + 1){	//+1 for the i=j 0s
+				max = recursiveSearch(e, adjacency, neighbours[executionOrder[i][0]], lowerBound);
+			}
+			if(max > lowerBound){
+				lowerBound = max;
+			}
+		}
+		///end of restore
 	}
 
 	//TODO ask help to understand sonarlint's problem with the function
