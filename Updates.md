@@ -1,7 +1,31 @@
+https://stackoverflow.com/questions/27925954/is-arrays-streamarray-name-sum-slower-than-iterative-approach
 
+####2019.10.19
+Been a while since an update was posted. Sideprojects, like massive amount of nerding out on awesome Project Euler problems, preparing for exams and interview got this project on hold. Spent a couple of days with offline attempts at writing pseudocode and more detailed sketches for the ranking algorithm.
+
+As a result after several rounds of doubting whether the ranking is correct, breaking it, and realising that the original idea is sufficient enough begun testing. Current results show that in some cases reordering does give a faster result. At the moment no idea how to decide on re-sorting.
+
+The new SingleTest file is temporary, for debugging.
+
+Next step I'd like to work on is taking the recursion method out of the files, and give it a separate class for better structure. If that's done, the 'do-while' version will be priority. Before I get to that though, I'd like to sort out the .cvs naming convention, header and the bulk comparison method's broken pathing. 
+
+On the side I've looked up on memory consumption monitoring methods for a more extensive comparison. As of now the tests are only ran on the "Kelk" graphs, so there shouldn't be high consumption, but the queen graphs could produce interesting numbers.
+
+PS: Next update may take longer. Interviews coming up, and new project related books got into my hand. O'Reilly books on java performance., performance tuning and a different Test Driven development one for other projects. Announcement about those coming soon!    
+
+----
+####2019.09.11
+
+Found the error in the printing of the lower bound to file. The lowerboundHeap file was broken due to the too excessive deletes in the previous stages.
+
+Knowing there is still much to do with the base half of the codes I'll proceed to the actual goal finally, and start writing the new algorithms. First target is the ranking  
+
+----
 ####2019.09.03
-Made header for the .csv.
-Found a bug in the printed file 
+Made header for the .csv. <br>
+Found a bug in the printed file. The lowerbound does not display. Further investigations showed that the function call return zero value for each run.
+
+The output file has headers from now on. 
 
 ----
 ####2019.08.25
@@ -15,14 +39,14 @@ Top 25% check option temporarily removed. For the final benchmark it'd be intere
 
 PrintMatrix added to Util. Util needs to be renamed, but refactoring would need prep. Will be done after the baseline benchmark.
 
-Main is considered to be good enough for now.
+Main is considered to be good enough for now.<br>
 readGraph got it's imports optimised.
  
 ----
 #### 2019.08.17
 Found the hardcoded path that made BulkComparison throw nullpointer expection every time. **Hardcoded paths are bad things, MMMMMMKAY?** ~~do you best Mr. Mackey impression~~
 
-Pathing must be fixed, not pushing till that's changed. Not hard, but it's late in the night.
+Pathing must be fixed, not pushing till that's changed. Not hard, but it's late in the night. (Project was indeed uploaded without fixing this to ask for linux specific help from a friend. Fix pending)
 
 ----
 #### 2019.08.16

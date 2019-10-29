@@ -13,7 +13,13 @@ import java.util.LinkedList;
 public class BulkComparison {
 
     public static void main(String[] args){
-        compare(getList(args));
+        if(args.length == 0){
+            System.out.println("Specify folder or file path");
+        }else if(args.length == 1) {
+            compare(getList(args[0]));
+        }else {
+        System.out.println("Too many arguments");
+        }
     }
 
     /**
@@ -28,14 +34,14 @@ public class BulkComparison {
      * The algorithms can be limited in runtime in the settings file. If they have exceeded this limit, their current
      * best result is taken.
      *
-     * @param paths String array of all the paths of the graphs to compare.
+     * @param paths String array of all the paths of the graphs to compare. (is broken atm)
      */
     private static void compare(String[] paths){
         try {
             //TODO make filename timestamped and dynamic
             PrintWriter writer = new PrintWriter("testrun.csv");
             if (Config.writeToFile)
-                writer.print("Path,Nodes,Edges,Density,Baselb,RuntimeNano\n");
+                writer.print("Path,Nodes,Edges,Density,Baselb,NodeLoc,RuntimeNano,Rankedlb,NodeLoc,RuntimeNano\n");
 
             for (int i = 0; i < paths.length; i++) {
                 System.out.println("\n" + paths[i]);
@@ -107,6 +113,8 @@ public class BulkComparison {
                     long start;
                     long end;
 
+                    //TODO: examine if this could be turned into a method call to shorten code
+
                     start = System.nanoTime();
                     LowerBoundHeap lowerBoundHeap = new LowerBoundHeap(nodes, e, matrix);
                     Thread lbhThread = new Thread(lowerBoundHeap);
@@ -118,8 +126,25 @@ public class BulkComparison {
                     }
 
                     if (Config.writeToFile) {
-                        writer.print(lowerBoundHeap.getLowerBound() + ",");
-                        System.out.println("!!!" + lowerBoundHeap.getLowerBound() + "!!!");
+                        writer.print(lowerBoundHeap.getLowerBound() + "," + lowerBoundHeap.getNode() + ",");
+                        System.out.println("BaseLB is " + lowerBoundHeap.getLowerBound() + " on node " + lowerBoundHeap.getNode());
+                    }
+                    end = System.nanoTime();
+                    timePrinter(start, end, writer);
+
+                    start = System.nanoTime();
+                    LowerBoundHeapRanked lowerBoundHeapRanked = new LowerBoundHeapRanked(nodes, e, matrix);
+                    Thread lbhThreadRanked = new Thread(lowerBoundHeapRanked);
+                    lbhThreadRanked.start();
+                    try {
+                        lbhThreadRanked.join(Config.killtime);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    if (Config.writeToFile) {
+                        writer.print(lowerBoundHeapRanked.getLowerBound() + "," + lowerBoundHeapRanked.getNode() + ",");
+                        System.out.println("Ranked LB is " + lowerBoundHeapRanked.getLowerBound() + " on node " + lowerBoundHeapRanked.getNode());
                     }
                     end = System.nanoTime();
                     timePrinter(start, end, writer);
@@ -159,12 +184,9 @@ public class BulkComparison {
      * @param a User input as String array.
      * @return String array that holds the paths of all graphs to check.
      */
-    private static String[] getList(String[] a){
+    private static String[] getList(String pathString){
 
         //TODO remove hardcoded path
-
-        //File[] files = new File("C:/compare/Graphs/").listFiles();
-        //File[] files = new File("C:/compare/Graphs/graph_color").listFiles();
         File[] files = new File("Graphs/Kelk").listFiles();
         //files = null; // debug
 		String[] graphArr = null;

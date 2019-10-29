@@ -3,65 +3,71 @@ public class LowerBoundHeap implements Runnable{
 	private int nodes;
 	private ColEdge[] e;
 	private int[][] adjacency;
+	private int whereis;
 
 	public LowerBoundHeap(int n, ColEdge[] e, int[][] adjacency) {
 		this.nodes = n;
 		this.e = e;
 		this.adjacency = adjacency;
+		this.whereis = 0;
 	}
 
 	public int getLowerBound() { //returns the lowerbound of a graph
 		return lowerBound;
 	}
 
+	public int getNode(){
+		return whereis;
+	}
+
 	@Override
 	public void run() {
-		lowerBound = 0;		//reset
+		lowerBound = 0;        //reset
 		int max = 0;
-		int[][] neighbours = new int[nodes][max+1];
-		
-		for(int i = 0; i < nodes; i++){		//finding the densest node to set the size of the neighbour array
+		int[][] neighbours = new int[nodes][max + 1];
+
+		for (int i = 0; i < nodes; i++) {        //finding the densest node to set the size of the neighbour array
 			int tempMax = 0;
 			max = 0;
-			for(int j = 0; j < nodes; j++){
-				if(adjacency[i][j] == 1) tempMax++;
+			for (int j = 0; j < nodes; j++) {
+				if (adjacency[i][j] == 1) tempMax++;
 			}
 			if (tempMax > max) max = tempMax;//maximum number (highest density) of neighbours in the graph
-			neighbours[i]=new int[max+1];
+			neighbours[i] = new int[max + 1];
 		}
-		
-		for( int i = 0; i < nodes; i++){	//finds all neighbours and saves them
-			int columncounter = 1;			//each iteration has a new column counter set to 1
-			
-			neighbours[i][0] = i;			//every node is the neighbour of itself
-			for(int j = 0; j < nodes; j++){ //for each record in the adjacency matrix
-				if(adjacency[i][j] == 1){   //if it's connected the connected vertices get saved
-				neighbours[i][columncounter] = j;
-				columncounter++;
+
+		for (int i = 0; i < nodes; i++) {    //finds all neighbours and saves them
+			int columncounter = 1;            //each iteration has a new column counter set to 1
+
+			neighbours[i][0] = i;            //every node is the neighbour of itself
+			for (int j = 0; j < nodes; j++) { //for each record in the adjacency matrix
+				if (adjacency[i][j] == 1) {   //if it's connected the connected vertices get saved
+					neighbours[i][columncounter] = j;
+					columncounter++;
 				}
 			}
 		}
 
 		//debug printer for neighbours
-		if(Config.DEBUG)
-		for(int i = 0; i < neighbours.length; i++){		//debug only
-			for(int j = 0; j < neighbours[i].length; j++){
-				System.out.print(neighbours[i][j] + " ");
+		if (Config.DEBUG)
+			for (int i = 0; i < neighbours.length; i++) {        //debug only
+				for (int j = 0; j < neighbours[i].length; j++) {
+					System.out.print(neighbours[i][j] + " ");
+				}
+				System.out.println();
 			}
-			System.out.println();
-		}
-		
+
 		int[][] executionOrder = new int[nodes][2];
-		
-		for(int i = 0; i < nodes; i++){
+
+		for (int i = 0; i < nodes; i++) {
 			executionOrder[i][0] = i;
 			executionOrder[i][1] = neighbours[i].length;
-			if(Config.DEBUG)	System.out.println(executionOrder[i][0] + " " + executionOrder[i][1]);
+			if (Config.DEBUG) System.out.println(executionOrder[i][0] + " " + executionOrder[i][1]);
 		}
-		
+
 		HeapSort.sort(executionOrder);
 
-		if(Config.DEBUG) {
+		if (Config.DEBUG) {
 			System.out.println("Sorted executionOrder: ");
 			for (int i = 0; i < nodes; i++) {
 				System.out.println(executionOrder[i][0] + " " + executionOrder[i][1]);
@@ -69,16 +75,22 @@ public class LowerBoundHeap implements Runnable{
 		}
 
 		//restored from older version
-		for(int i = 0; i < neighbours.length; i++){
+		for (int i = 0; i < neighbours.length; i++) {
 			max = 0;
-			if(executionOrder[i][1] > lowerBound + 1){	//+1 for the i=j 0s
+			if (executionOrder[i][1] > lowerBound + 1) {    //+1 for the i=j 0s
 				max = recursiveSearch(e, adjacency, neighbours[executionOrder[i][0]], lowerBound);
+				if (max > lowerBound) {
+					lowerBound = max;
+					whereis = i;
+				}
+			} else {
+				break;
 			}
-			if(max > lowerBound){
-				lowerBound = max;
-			}
+
 		}
 		///end of restore
+		if(Config.DEBUG)
+			System.out.println("Lowerbound found at " + whereis);
 	}
 
 	//TODO ask help to understand sonarlint's problem with the function
