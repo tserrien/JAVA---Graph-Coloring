@@ -1,4 +1,7 @@
 //TODO refactor
+/**
+ * Collection of utllity methods. Individual javadoc will be added after revision.
+ */
 
 import java.io.File;
 import java.util.ArrayList;
@@ -200,6 +203,7 @@ public class Util {
 		}
 		System.out.println();
 	}
+
 	public static void printOrderAndSaturation(ArrayList<Integer> ordering, Node[] adjList) {
 		System.out.println("Saturation descent order: ");
 		for(int i = 0; i < ordering.size(); i++) {
@@ -207,13 +211,14 @@ public class Util {
 			System.out.print("(" + index + ": ");
 			System.out.print(adjList[index].s + "), ");
 		}
-		System.out.println();
 	}
 
 	/**
 	 * Utility method to get the extension of the graph.
 	 *
-	 * @param file
+	 * @author Paulius Skaisgiris
+	 *
+	 * @param file Input file to examine
 	 * @return Returns the extension of the file, eg. txt, col, iso.
 	 */
 	public static String getFileExtension(File file) {
@@ -223,6 +228,11 @@ public class Util {
 		else return "";
 	}
 
+	/**
+	 * Utility method to print out a matrix
+	 * @author tserrien
+	 * @param matrix 2d array representation of matrix
+	 */
 	public static void PrintMatrix(int[][] matrix){
 		for(int i = 0; i < matrix.length; i++){
 			for(int j = 0; i < matrix[i].length; j++){

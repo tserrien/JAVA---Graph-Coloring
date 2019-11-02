@@ -1,3 +1,9 @@
+/**
+ * Greedy coloring algorithm. Currently not used for the project.
+ * Documentation will NOT be completed, as it is not my work.
+ * @author Huang "Benny" Yiping
+ */
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 

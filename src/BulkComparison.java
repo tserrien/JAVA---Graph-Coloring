@@ -158,11 +158,14 @@ public class BulkComparison {
     }
 
     /**
-     * Method for outputting runtime easily.
+     * Method for outputting runtime easily. Console printed time conversion is buggy, uses nanosec for file output.
      *
+     * @author tserrien
      * @param start Start of the execution (in nanoseconds).
      * @param end End of the execution (in nanoseconds).
+     * @param writer PrintWriter for logging
      */
+    //TODO: take printwriter to main method
     public static void timePrinter(long start, long end, PrintWriter writer){
         long time = end - start;
         System.out.println("Runtime: " + time + " nanosec");

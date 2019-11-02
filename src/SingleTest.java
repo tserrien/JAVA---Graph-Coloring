@@ -6,6 +6,7 @@ import java.util.Comparator;
 /**
  * Class to easily compare accuracy and runtime of
  * different versions of the Bron-Kerbosch lower bound algorithm
+ * @author tserrien
  */
 public class SingleTest {
 

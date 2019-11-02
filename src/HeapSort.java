@@ -1,4 +1,21 @@
-//copyright stuff moved to bottom
+/**
+ * A heap sort demonstration algorithm
+ * SortAlgorithm.java, Thu Oct 27 10:32:35 1994
+ *
+ * Modified by Steven de Jong for Genetic Algorithms.
+ *
+ * Modified by Jo Stevens for practical session.
+ *
+ * @author Jason Harrison@cs.ubc.ca
+ * @version     1.0, 23 Jun 1995
+ *
+ * @author Steven de Jong
+ * @version     1.1, 08 Oct 2004
+ *
+ * @author Jo Stevens
+ * @version 1.2, 14 Nov 2008
+ *
+ */
 
 public class HeapSort 
 {    
@@ -58,22 +75,3 @@ public class HeapSort
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
 
-/**
- * A heap sort demonstration algorithm
- * SortAlgorithm.java, Thu Oct 27 10:32:35 1994
- *
- * Modified by Steven de Jong for Genetic Algorithms.
- * 
- * Modified by Jo Stevens for practical session.
- *
- *
- * @author Jason Harrison@cs.ubc.ca
- * @version     1.0, 23 Jun 1995
- *
- * @author Steven de Jong
- * @version     1.1, 08 Oct 2004
- * 
- * @author Jo Stevens
- * @version 1.2, 14 Nov 2008
- * 
- */

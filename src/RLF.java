@@ -1,3 +1,8 @@
+/**
+ * Recursive largest first algorithm. Unconfirmed author.
+ * Documentation will NOT be completed, as it is not my work.
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

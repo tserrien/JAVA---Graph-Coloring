@@ -2,6 +2,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * This is a class to read in graphs from files. Reads in a text file and returns a ColEdge object for further
+ * processing.
+ * <p>This method attempts to read in any file.
+ * Class was originally part of the main method provided for the project.
+ * @author Steven Kelk
+ * @version 1.0
+ *
+ * Modifications, like refactoring were done. Debuggers changed to adapt the config file control. Return added.
+ * @author tserrien
+ * version 1.1
+ *
+ */
+
 public class readGraph {
 
 	public final static String COMMENT = "//";
@@ -9,10 +23,18 @@ public class readGraph {
 	public static int nodes;
 	private static int disconnectedNodes = 0;
 
+	/**
+	 * Getter method to retrieve the number of disconnected nodes.
+	 * @return number of disconnected nodes in the graph.
+	 */
 	public static int getDisconnected(){
 		return disconnectedNodes;
 	}
 
+	/**
+	 * @param inputfile relative or absolute url of file containing the graph to be loaded
+	 * @return ColEdge representation of the graph
+	 */
 	public static ColEdge[] readFile(String inputfile) {
 
 		boolean seen[] = null;

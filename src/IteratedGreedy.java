@@ -1,3 +1,9 @@
+/**
+ * Iterated greedy coloring algorithm. Currently not used for the project.
+ * Documentation will NOT be completed, as it is not my work.
+ * @author Huang "Benny" Yiping
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,11 +50,13 @@ public class IteratedGreedy implements Runnable{
 			System.out.println("in reverse ordering");
 		Collections.reverse(colorSet);
 	}
+
 	public static void random(ArrayList<ArrayList<Integer>> colorSet) {
 		if(Config.DEBUG)
 			System.out.println("in random ordering");
 		Collections.shuffle(colorSet);
 	}
+
 	public static void largestFirst(ArrayList<ArrayList<Integer>> colorSet) {
 		if(Config.DEBUG)
 			System.out.println("in largest first ordering");
@@ -66,6 +74,7 @@ public class IteratedGreedy implements Runnable{
 			}
 		});
 	}
+
 	public static int[] genOrdering(int n, ArrayList<ArrayList<Integer>> colorSet) {
 		int largest = 50;
 		int reverse = largest + 50;
@@ -86,7 +95,5 @@ public class IteratedGreedy implements Runnable{
 			}
 		}
 		return ordering;
-		
-		
 	}
 }

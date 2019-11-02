@@ -1,3 +1,9 @@
+/**
+ * Welsh-Powell lower bound algorithm. Currently not used for the project.
+ * Documentation will NOT be completed, as it is not my work.
+ * @author Paulius Skaisgriris
+ */
+
 import java.util.ArrayList;
 
 public class WelshPowell implements Runnable {
