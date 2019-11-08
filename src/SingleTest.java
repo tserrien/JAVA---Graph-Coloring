@@ -20,6 +20,11 @@ public class SingleTest {
      * @param fname String array of all the paths of the graphs to compare.
      */
     private static void compare(String fname){
+        Runtime runtime = Runtime.getRuntime();
+        runtime.gc();
+        runtime.gc();
+        long memoryBefore = runtime.totalMemory() - runtime.freeMemory();
+
             System.out.println("\n" + fname);
             ColEdge[] e = readGraph.readFile(fname);
 
@@ -92,6 +97,10 @@ public class SingleTest {
                 end = System.nanoTime();
                 timePrinter(start, end);
             }
+            long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
+            long memoryUsedMb = (memoryAfter - memoryBefore) / (1024 * 1024);
+            long memoryUsedKb = ((memoryAfter - memoryBefore) / 1024) % 1024;
+            System.out.println("Memory used " + memoryUsedMb + "MB " + memoryUsedKb + "KB");
     }
 
     /**
